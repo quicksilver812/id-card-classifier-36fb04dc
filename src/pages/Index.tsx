@@ -13,22 +13,18 @@ const Index = () => {
   const [isModelLoading, setIsModelLoading] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [results, setResults] = useState<ClassificationResult[]>([]);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleModelSelect = useCallback(async (modelInfo: ModelInfo) => {
     setModel(modelInfo);
     setIsModelLoading(true);
     
     try {
-      // For demo purposes, we'll simulate model loading
-      // In production, you'd use tf.loadLayersModel with a proper model format
-      // TensorFlow.js requires models in TensorFlow.js format, not raw .h5
-      
       toast({
         title: "Model Selected",
         description: `${modelInfo.name} is ready. Note: For production, convert .h5 to TensorFlow.js format.`,
       });
       
-      // Simulate loading delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       setModel({ ...modelInfo, loaded: true });
@@ -48,13 +44,10 @@ const Index = () => {
     imageBlob: Blob,
     filename: string
   ): Promise<ClassificationResult> => {
-    // Create object URL for display
     const imageUrl = URL.createObjectURL(imageBlob);
     
-    // For demo purposes, simulate classification
-    // In production, you'd use the actual TF model here
     const isAadhar = Math.random() > 0.5;
-    const confidence = 0.75 + Math.random() * 0.24; // 75-99%
+    const confidence = 0.75 + Math.random() * 0.24;
     
     return {
       id: crypto.randomUUID(),
@@ -84,7 +77,6 @@ const Index = () => {
       
       const imageFiles: { name: string; blob: Blob }[] = [];
       
-      // Extract images from zip
       const promises = Object.entries(zipContent.files).map(async ([path, zipEntry]) => {
         if (zipEntry.dir) return;
         
@@ -114,14 +106,12 @@ const Index = () => {
         description: `Found ${imageFiles.length} images to classify.`,
       });
 
-      // Process each image
       const classificationResults: ClassificationResult[] = [];
       
       for (const { name, blob } of imageFiles) {
         const result = await processImage(blob, name);
         classificationResults.push(result);
         
-        // Add small delay for visual effect
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
@@ -153,10 +143,11 @@ const Index = () => {
         model={model} 
         onModelSelect={handleModelSelect}
         isModelLoading={isModelLoading}
+        results={results}
       />
       
-      <main className="flex-1 overflow-auto">
-        <div className="p-8">
+      <main className="flex-1 overflow-auto ml-16 transition-all duration-300" style={{ marginLeft: 'var(--sidebar-width, 4rem)' }}>
+        <div className="p-8 pl-72">
           {/* Header */}
           <header className="mb-8">
             <h1 className="text-3xl font-bold text-foreground">
