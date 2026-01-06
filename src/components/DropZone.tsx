@@ -32,9 +32,9 @@ export function DropZone({ onFileDrop, isProcessing, disabled }: DropZoneProps) 
     <div
       className={`
         relative w-full max-w-2xl mx-auto rounded-2xl border-2 border-dashed p-12 
-        transition-all duration-300 ease-out
+        transition-all duration-300 ease-out bg-card shadow-sm
         ${disabled ? 'opacity-50 cursor-not-allowed border-muted' : 
-          dragOver ? 'border-primary bg-primary/5 scale-[1.02] glow-primary' : 
+          dragOver ? 'border-primary bg-primary/5 scale-[1.02] shadow-lg' : 
           'border-border hover:border-primary/50 hover:bg-secondary/30'}
         ${isProcessing ? 'pointer-events-none' : ''}
       `}

@@ -11,8 +11,8 @@ export function ImageTile({ result, index }: ImageTileProps) {
   
   return (
     <div 
-      className="group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg animate-fade-in"
-      style={{ animationDelay: `${index * 50}ms` }}
+      className="group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-md animate-fade-in"
+      style={{ animationDelay: `${index * 50}ms`, boxShadow: '0 2px 8px -2px hsl(214 32% 91% / 0.8)' }}
     >
       {/* Image Container */}
       <div className="aspect-[4/3] relative overflow-hidden bg-secondary">
